@@ -13,7 +13,7 @@ public class CoinCollection : MonoBehaviour
         if (other.transform.tag == "Coin")
         {
             Coin++;
-            CoinText.text = "Coins collected : " + Coin.ToString();
+            CoinText.text = "Coins : " + Coin.ToString();
             Debug.Log(Coin);
             Destroy(other.gameObject);
         }
