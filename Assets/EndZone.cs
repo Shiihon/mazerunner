@@ -16,6 +16,9 @@ public class EndZone : MonoBehaviour
         uiPanel.SetActive(false); // Hide UI at the start
         nextLevelButton.gameObject.SetActive(false); // Hide button at the start
         nextLevelButton.onClick.AddListener(LoadNextLevel); // Assign button click event
+        messageText.gameObject.SetActive(false);
+        
+        
     }
     
     private void OnTriggerEnter(Collider other)
@@ -31,8 +34,6 @@ public class EndZone : MonoBehaviour
             uiPanel.SetActive(true); // Show UI panel
             messageText.gameObject.SetActive(true); // ✅ Ensure the text is active
             nextLevelButton.gameObject.SetActive(true); // Show button
-
-            Debug.Log("✅ UI Panel and Button should now be visible!");
 
             // Determine the message based on coins collected
             if (coinsCollected == totalCoins)
@@ -51,6 +52,7 @@ public class EndZone : MonoBehaviour
             Debug.Log("✅ MessageText Updated: " + messageText.text);
         }
     }
+
     
     private void LoadNextLevel()
     {
