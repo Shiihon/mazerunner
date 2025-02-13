@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 437641508446292993}
   m_Layer: 0
   m_Name: EndZone
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,5 +68,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiPanel: {fileID: 0}
   messageText: {fileID: 0}
+  nextLevelButton: {fileID: 0}
   coinCollector: {fileID: 0}
   totalCoins: 10

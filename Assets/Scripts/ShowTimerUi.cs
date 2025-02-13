@@ -8,6 +8,7 @@ public class TimerUI : MonoBehaviour
     void Start()
     {
         timerText = GetComponent<TextMeshProUGUI>();
+        UpdateTimerText();
     }
 
     void Update()
@@ -15,8 +16,13 @@ public class TimerUI : MonoBehaviour
         // Ensure the timer updates every frame
         if (GameTimer.Instance != null && GameTimer.Instance.IsRunning())
         {
-            float time = GameTimer.Instance.GetElapsedTime();
-            timerText.text = "Time: " + time.ToString("F2") + "s"; // Format to 2 decimal places
+            UpdateTimerText();
         }
+    }
+
+    void UpdateTimerText()
+    {
+        float time = GameTimer.Instance.GetElapsedTime();
+        timerText.text = "Time: " + time.ToString("F2") + "s"; // Format to 2 decimal places
     }
 }
