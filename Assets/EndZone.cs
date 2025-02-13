@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -10,6 +11,7 @@ public class EndZone : MonoBehaviour
     public CoinCollection coinCollector; // Reference to your CoinCollection script
     public int totalCoins = 10; // Set the total number of coins in the Inspector
     public Button nextLevelButton; // Reference to the Button
+    public Boolean isLevelComplete;
 
     private void Start()
     {
@@ -17,8 +19,6 @@ public class EndZone : MonoBehaviour
         nextLevelButton.gameObject.SetActive(false); // Hide button at the start
         nextLevelButton.onClick.AddListener(LoadNextLevel); // Assign button click event
         messageText.gameObject.SetActive(false);
-        
-        
     }
     
     private void OnTriggerEnter(Collider other)
@@ -34,6 +34,7 @@ public class EndZone : MonoBehaviour
             uiPanel.SetActive(true); // Show UI panel
             messageText.gameObject.SetActive(true); // ✅ Ensure the text is active
             nextLevelButton.gameObject.SetActive(true); // Show button
+            isLevelComplete = true;
 
             // Determine the message based on coins collected
             if (coinsCollected == totalCoins)
@@ -63,16 +64,19 @@ public class EndZone : MonoBehaviour
         if (currentScene == "Level 1")
         {
             SceneManager.LoadScene("Level 2");
+            isLevelComplete = false;
         }
         else if (currentScene == "Level 2")
         {
             SceneManager.LoadScene("Level 3");
+            isLevelComplete = false;
         }
         else if (currentScene == "Level 3")
         {
             // If it's the last level, change the text instead of loading a new scene
             messageText.text = "Congrats... you officially suck.";
             nextLevelButton.gameObject.SetActive(false); // Hide button after final level
+            isLevelComplete = true;
         }
     }
 }

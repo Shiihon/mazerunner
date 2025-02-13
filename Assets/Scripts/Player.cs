@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement; // Needed for restarting the scene
 public class Player : MonoBehaviour
 {
     private CharacterController controller;
+    private EndZone endZone;
 
     [SerializeField] private float moveSpeed = 5f; 
     [SerializeField] private float jumpHeight = 2f; 
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        endZone = FindFirstObjectByType<EndZone>();
     }
 
     void Update()
@@ -36,7 +38,11 @@ public class Player : MonoBehaviour
         if (moveDirection.magnitude >= 0.1f) 
         {
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
-            GameTimer.Instance?.StartTimer();
+            if (endZone.isLevelComplete == false)
+            {
+                GameTimer.Instance?.StartTimer();
+            }
+
         }
 
         // Jumping logic
