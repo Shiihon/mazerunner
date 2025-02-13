@@ -12,15 +12,11 @@ public class TimerUI : MonoBehaviour
 
     void Update()
     {
-        if (GameTimer.Instance != null)
+        // Ensure the timer updates every frame
+        if (GameTimer.Instance != null && GameTimer.Instance.IsRunning())
         {
             float time = GameTimer.Instance.GetElapsedTime();
-            timerText.text = "Time: " + time.ToString("F2") + "s"; 
-            
-            if (!GameTimer.Instance.IsRunning())
-            {
-                enabled = false; // Disable this script
-            }
+            timerText.text = "Time: " + time.ToString("F2") + "s"; // Format to 2 decimal places
         }
     }
 }
