@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
         if (moveDirection.magnitude >= 0.1f) 
         {
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+            GameTimer.Instance?.StartTimer();
         }
 
         // Jumping logic
@@ -76,4 +77,14 @@ public class Player : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+    
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish")) // When the player reaches the final goal
+        {
+            Debug.Log("Goal Reached! Timer Stopped.");
+            GameTimer.Instance?.StopTimer();
+        }
+    }
+
 }
