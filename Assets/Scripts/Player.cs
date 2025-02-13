@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // Needed for restarting the scene
 
 public class Player : MonoBehaviour
 {
@@ -7,8 +8,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f; 
     [SerializeField] private float jumpHeight = 2f; 
     [SerializeField] private float gravity = 9.81f; 
-    [SerializeField] private float fallMultiplier = 2.5f; // Makes falling faster
-    [SerializeField] private float lowJumpMultiplier = 2f; // Makes short jumps feel better
+    [SerializeField] private float fallMultiplier = 2.5f; 
+    [SerializeField] private float lowJumpMultiplier = 2f; 
 
     private Vector3 velocity; 
     private bool isGrounded; 
@@ -20,20 +21,22 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Check if player is grounded
         isGrounded = controller.isGrounded;
 
         if (isGrounded && velocity.y < 0)
         {
-            velocity.y = -2f; // Prevents floating issues
+            velocity.y = -2f; 
         }
 
         // Get movement input
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal"); 
+        float vertical = Input.GetAxisRaw("Vertical"); 
         Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
 
-        controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+        if (moveDirection.magnitude >= 0.1f) 
+        {
+            controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+        }
 
         // Jumping logic
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -41,7 +44,7 @@ public class Player : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
         }
 
-        // 🔥 Apply faster gravity when falling
+        // Apply gravity
         if (velocity.y < 0)
         {
             velocity.y -= gravity * fallMultiplier * Time.deltaTime;
@@ -52,9 +55,25 @@ public class Player : MonoBehaviour
         }
         else 
         {
-            velocity.y -= gravity * Time.deltaTime; // Normal gravity
+            velocity.y -= gravity * Time.deltaTime;
         }
 
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    // Detects collision with WallOfDeath
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("WallOfDeath")) 
+        {
+            Debug.Log("You hit the Wall of Death! Restarting...");
+            RestartGame();
+        }
+    }
+
+    // Restarts the scene
+    void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
